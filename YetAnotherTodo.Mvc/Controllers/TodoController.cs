@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Configuration;
+using System.Web.Mvc;
 
 namespace YetAnotherTodo.Mvc.Controllers
 {
@@ -8,6 +9,7 @@ namespace YetAnotherTodo.Mvc.Controllers
         // GET: Todo
         public ActionResult Index()
         {
+            ViewBag.BaseApiUrl = ConfigurationManager.AppSettings["WebApiUri"];
             return View();
         }
     }

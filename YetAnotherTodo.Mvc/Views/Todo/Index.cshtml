@@ -3,3 +3,40 @@
 }
 
 <h2>My Todo List</h2>
+
+<div data-bind="visible: showAddItem" class="row">
+    <form class="form-inline" data-bind="with: newItem">
+        <label class="control-label">Description:</label>
+        <input type="text" required="required" name="description" id="description" data-bind="value: description" class="form-control" />
+        <button type="button" data-bind="click: $parent.addNewItem" class="btn btn-default">Add</button>
+    </form>
+</div>
+<div data-bind="visible: showListView" class="row">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Done</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: items">
+            <tr>
+                <td data-bind="text: description"></td>
+                <td><span><i class="glyphicon glyphicon-check" data-bind="visible: done"></i></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section scripts
+{
+    <script>
+        var apiSettings = {
+            baseUrl: '@ViewBag.BaseApiUrl',
+            authToken: '@User.Identity.Name'
+        };
+    </script>
+
+    @Scripts.Render("~/bundles/knockout")
+    <script src="~/Scripts/todoItems.js"></script>
+}

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
+using YetAnotherTodo.Mvc.Filters;
 using YetAnotherTodo.Mvc.Models;
 
 namespace YetAnotherTodo.Mvc.Controllers
 {
-    public class AccountController : Controller
+    [HandleApiError]
+    public class AccountController : ApiController
     {
         // GET: Account/Register
         public ActionResult Register()
@@ -31,7 +32,13 @@ namespace YetAnotherTodo.Mvc.Controllers
             catch (ApiException ex)
             {
                 //No 200 OK result, what went wrong?
-                //TODO Parse error and add modelstate errors
+                HandleBadRequest(ex);
+
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
                 throw;
             }
         }
@@ -61,8 +68,15 @@ namespace YetAnotherTodo.Mvc.Controllers
             }
             catch (ApiException ex)
             {
-                //We didn't get a 200 OK. Let's throw an exception containing the JSON data (note: this is probably not a good idea in production).
-                throw new Exception(ex.JsonData);
+                //No 200 OK result, what went wrong?
+                HandleBadRequest(ex);
+
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                throw;
             }
         }
 
