@@ -41,14 +41,14 @@ namespace YetAnotherTodo.EF.Repository
             return await GetTodoItemAggregate(td => string.Equals(td.Id, id)).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<TodoItem>> FindByUserIdAsync(string userId)
+        public async Task<IEnumerable<TodoItem>> FindByUserNameAsync(string userName)
         {
-            return await GetTodoItemAggregate(td => string.Equals(td.User.Id, userId)).ToListAsync();
+            return await GetTodoItemAggregate(td => string.Equals(td.User.UserName, userName)).ToListAsync();
         }
 
-        public async Task<TodoItem> FindByIdAndUserIdAsync(string id, string userId)
+        public async Task<TodoItem> FindByIdAndUserNameAsync(string id, string userName)
         {
-            return await GetTodoItemAggregate(td => string.Equals(td.Id, id) && string.Equals(td.User.Id, userId)).FirstOrDefaultAsync();
+            return await GetTodoItemAggregate(td => string.Equals(td.Id, id) && string.Equals(td.User.UserName, userName)).FirstOrDefaultAsync();
         }
 
         private IQueryable<TodoItem> GetTodoItemAggregate(Expression<Func<TodoItem, bool>> filter)

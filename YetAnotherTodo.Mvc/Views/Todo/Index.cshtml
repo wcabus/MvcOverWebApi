@@ -2,17 +2,20 @@
     ViewBag.Title = "My Todo List";
 }
 
-<h2>My Todo List</h2>
-
+<div class="row">
+    <h2>My Todo List</h2>
+</div>
 <div data-bind="visible: showAddItem" class="row">
+    <h4>Add new Todo item</h4>
     <form class="form-inline" data-bind="with: newItem">
         <label class="control-label">Description:</label>
         <input type="text" required="required" name="description" id="description" data-bind="value: description" class="form-control" />
         <button type="button" data-bind="click: $parent.addNewItem" class="btn btn-default">Add</button>
     </form>
+    <br />
 </div>
 <div data-bind="visible: showListView" class="row">
-    <table class="table table-hover">
+    <table class="table table-hover table-striped">
         <thead>
             <tr>
                 <th>Description</th>

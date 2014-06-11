@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -59,9 +60,10 @@ namespace YetAnotherTodo.WebApi.Controllers
         /// <returns></returns>
         public async Task<IHttpActionResult> Get()
         {
-            var data = await TodoItemRepository.FindByUserIdAsync(User.Identity.GetUserId());
+            var data = await TodoItemRepository.FindByUserNameAsync(User.Identity.GetUserId());
 
-            return Ok(data);
+            //Transforms each Domain.TodoItem into a Models.Output.TodoItem
+            return Ok(data.Select(Models.Output.TodoItem.Project));
         }
 
         //GET /api/TodoItem/{id}
@@ -72,13 +74,13 @@ namespace YetAnotherTodo.WebApi.Controllers
         /// <returns></returns>
         public async Task<IHttpActionResult> Get(string id)
         {
-            var data = await TodoItemRepository.FindByIdAndUserIdAsync(id, User.Identity.GetUserId());
+            var data = await TodoItemRepository.FindByIdAndUserNameAsync(id, User.Identity.GetUserId());
             if (data == null)
             {
                 return NotFound();
             }
 
-            return Ok(data);
+            return Ok(Models.Output.TodoItem.Project(data));
         }
 
         //POST /api/TodoItem
@@ -96,13 +98,13 @@ namespace YetAnotherTodo.WebApi.Controllers
 
             var todoItem = new TodoItem
             {
-                User = await UserManager.FindByIdAsync(User.Identity.GetUserId()),
+                User = await UserManager.FindByNameAsync(User.Identity.GetUserId()),
                 Description = model.Description,
                 Done = false
             };
 
             await TodoItemRepository.CreateAsync(todoItem);
-            return CreatedAtRoute("DefaultApi", new {todoItem.Id}, todoItem);
+            return CreatedAtRoute("DefaultApi", new { todoItem.Id }, Models.Output.TodoItem.Project(todoItem));
         }
 
         //POST /api/TodoItem/Done

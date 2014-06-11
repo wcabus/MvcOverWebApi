@@ -1,23 +1,12 @@
 ﻿(function () {
-    function readCookie(name) {
-        var nameEq = name + '=';
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i];
 
-            //Remove leading spaces
-            while (cookie.charAt(0) === ' ') {
-                cookie = cookie.substring(1, cookie.length);
-            }
-
-            if (cookie.indexOf(nameEq) === 0) {
-                return cookie.substring(nameEq.length, cookie.length);
-            }
+    // Let's set some default first for every AJAX call.
+    $.ajaxSetup({
+        xhrFields: {
+            withCredentials: true // This setting passes cookies along the request, including our authentication cookie.
         }
-
-        return null;
-    }
-
+    });
+    
     function TodoItem() {
         var self = this;
 
@@ -29,10 +18,7 @@
 
     function ViewModel() {
         var self = this;
-
-        //Auth
-        self.presence = readCookie('presence');
-
+        
         //ViewState
         self.showListView = ko.observable(true);
         self.showAddItem = ko.observable(true);
@@ -44,13 +30,7 @@
         //Functions
         self.load = function () {
             $.ajax(apiSettings.baseUrl + '/api/TodoItem', {
-                dataType: 'json',
-                //headers: {
-                //    'Authorization': 'Bearer ' + self.presence
-                //}
-                xhrFields: {
-                    withCredentials: true
-                }
+                dataType: 'json'
             }).done(function (data) {
                 self.items.removeAll();
 
@@ -69,9 +49,6 @@
         self.addNewItem = function () {
             $.ajax(apiSettings.baseUrl + '/api/TodoItem', {
                 type: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + self.presence
-                },
                 data: {
                     description: self.newItem().description()
                 }
