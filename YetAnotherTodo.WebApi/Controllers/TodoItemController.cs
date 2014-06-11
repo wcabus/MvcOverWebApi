@@ -60,7 +60,7 @@ namespace YetAnotherTodo.WebApi.Controllers
         /// <returns></returns>
         public async Task<IHttpActionResult> Get()
         {
-            var data = await TodoItemRepository.FindByUserNameAsync(User.Identity.GetUserId());
+            var data = await TodoItemRepository.FindByUserNameAsync(User.Identity.Name);
 
             //Transforms each Domain.TodoItem into a Models.Output.TodoItem
             return Ok(data.Select(Models.Output.TodoItem.Project));
@@ -74,7 +74,7 @@ namespace YetAnotherTodo.WebApi.Controllers
         /// <returns></returns>
         public async Task<IHttpActionResult> Get(string id)
         {
-            var data = await TodoItemRepository.FindByIdAndUserNameAsync(id, User.Identity.GetUserId());
+            var data = await TodoItemRepository.FindByIdAndUserNameAsync(id, User.Identity.Name);
             if (data == null)
             {
                 return NotFound();
@@ -98,7 +98,7 @@ namespace YetAnotherTodo.WebApi.Controllers
 
             var todoItem = new TodoItem
             {
-                User = await UserManager.FindByNameAsync(User.Identity.GetUserId()),
+                User = await UserManager.FindByNameAsync(User.Identity.Name),
                 Description = model.Description,
                 Done = false
             };

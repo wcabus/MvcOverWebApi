@@ -69,7 +69,8 @@ namespace YetAnotherTodo.Mvc.Controllers
                 var result = await WebApiService.Instance.AuthenticateAsync<SignInResult>(model.Email, model.Password);
                 
                 //Let's keep the user authenticated in the MVC webapp.
-                FormsAuthentication.SetAuthCookie(result.UserName, model.RememberMe);
+                //By using the AccessToken, we can use User.Identity.Name in the MVC controllers to make API calls.
+                FormsAuthentication.SetAuthCookie(result.AccessToken, model.RememberMe);
                 
                 //Create an AuthenticationTicket to generate a cookie used to authenticate against Web API.
                 //But before we can do that, we need a ClaimsIdentity that can be authenticated in Web API.
