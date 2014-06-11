@@ -75,8 +75,7 @@ namespace YetAnotherTodo.Mvc.Controllers
                 //But before we can do that, we need a ClaimsIdentity that can be authenticated in Web API.
                 var claims = new[]
                 {
-                    new Claim(ClaimTypes.Name, result.UserName), 
-                    new Claim(ClaimTypes.NameIdentifier, result.UserName) 
+                    new Claim(ClaimTypes.Name, result.UserName)
                 };
 
                 var authTicket = new AuthenticationTicket(new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie), new AuthenticationProperties

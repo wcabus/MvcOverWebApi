@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
-using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using YetAnotherTodo.EF;
 using YetAnotherTodo.WebApi.Models;
 using YetAnotherTodo.WebApi.Providers;
-using AppBuilderExtensions = Microsoft.Owin.Security.DataProtection.AppBuilderExtensions;
 
 namespace YetAnotherTodo.WebApi
 {
@@ -27,8 +23,7 @@ namespace YetAnotherTodo.WebApi
             app.CreatePerOwinContext(YetAnotherTodoDbContext<ApplicationUser>.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
-            // Enable the application to use a cookie to store information for the signed in user
-            // and to use a cookie to temporarily store information about a user logging in with a third party login provider
+            // We're enabling cookie authentication, but with a specific cookie name (and we allow non-http cookies to enable authenticating from JavaScript).
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
