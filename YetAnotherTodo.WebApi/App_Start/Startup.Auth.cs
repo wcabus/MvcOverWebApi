@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using YetAnotherTodo.EF;
 using YetAnotherTodo.WebApi.Models;
 using YetAnotherTodo.WebApi.Providers;
+using AppBuilderExtensions = Microsoft.Owin.Security.DataProtection.AppBuilderExtensions;
 
 namespace YetAnotherTodo.WebApi
 {
@@ -23,9 +29,13 @@ namespace YetAnotherTodo.WebApi
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
-            //app.UseCookieAuthentication(new CookieAuthenticationOptions());
-            //app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                CookieHttpOnly = false,
+                CookieName = "YetAnotherTodo.WebApi.Auth"
+            });
+            
             // Configure the application for OAuth based flow
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions

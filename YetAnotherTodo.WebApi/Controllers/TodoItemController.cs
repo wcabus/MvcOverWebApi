@@ -12,7 +12,7 @@ namespace YetAnotherTodo.WebApi.Controllers
 {
     [Authorize]
     [RoutePrefix("api/TodoItem")]
-    [EnableCors("http://localhost:64791", "*", "*")]
+    [EnableCors("http://localhost:64791", "*", "*", SupportsCredentials = true)]
     public class TodoItemController : ApiController
     {
         private TodoItemRepository _todoItemRepository;
