@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using YetAnotherTodo.Domain;
 using YetAnotherTodo.EF.Repository;
@@ -60,6 +59,11 @@ namespace YetAnotherTodo.WebApi.Controllers
         /// <returns></returns>
         public async Task<IHttpActionResult> Get()
         {
+            /*
+             * Note: when using User.Identity.GetLoginId(), make sure that the ID is the same!
+             * When logging on using the cookie, the ID will be the value of the NameIdentifier claim (email address in this case).
+             * When logging on using the bearer token, the ID will be the actual user ID.
+             */
             var data = await TodoItemRepository.FindByUserNameAsync(User.Identity.Name);
 
             //Transforms each Domain.TodoItem into a Models.Output.TodoItem

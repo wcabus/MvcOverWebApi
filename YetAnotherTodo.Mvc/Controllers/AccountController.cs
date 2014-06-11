@@ -107,15 +107,6 @@ namespace YetAnotherTodo.Mvc.Controllers
                     Value = protectedText
                 });
                 
-
-                //Old attempt, stored the AuthToken in a presence cookie
-                Response.SetCookie(new HttpCookie("presence")
-                {
-                    HttpOnly = false,
-                    Expires = result.Expires.UtcDateTime,
-                    Value = result.AccessToken
-                });
-
                 return Redirect(redirectUrl ?? "/");
             }
             catch (ApiException ex)

@@ -13,6 +13,8 @@ namespace YetAnotherTodo.Mvc.Controllers
         public ActionResult Index()
         {
             ViewBag.BaseApiUrl = ConfigurationManager.AppSettings["WebApiUri"];
+            ViewBag.AuthToken = User.Identity.Name;
+
             return View();
         }
 
