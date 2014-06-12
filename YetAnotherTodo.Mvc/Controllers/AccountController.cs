@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -127,6 +128,14 @@ namespace YetAnotherTodo.Mvc.Controllers
         public ActionResult SignOut()
         {
             FormsAuthentication.SignOut();
+
+            //Clear the auth cookie
+            if (Response.Cookies["YetAnotherTodo.WebApi.Auth"] != null)
+            {
+                var c = new HttpCookie("YetAnotherTodo.WebApi.Auth") { Expires = DateTime.Now.AddDays(-1) };
+                Response.Cookies.Add(c);
+            }
+
             return RedirectToAction("Index", "Home");
         }
     }
