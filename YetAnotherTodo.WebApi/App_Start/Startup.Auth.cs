@@ -23,11 +23,11 @@ namespace YetAnotherTodo.WebApi
             app.CreatePerOwinContext(YetAnotherTodoDbContext<ApplicationUser>.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
-            // We're enabling cookie authentication, but with a specific cookie name (and we allow non-http cookies to enable authenticating from JavaScript).
+            // We're enabling cookie authentication, but with a specific cookie name.
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                CookieHttpOnly = false,
+                CookieHttpOnly = true,
                 CookieName = "YetAnotherTodo.WebApi.Auth"
             });
             

@@ -103,7 +103,7 @@ namespace YetAnotherTodo.Mvc.Controllers
                 //And now, we have the cookie.
                 Response.SetCookie(new HttpCookie("YetAnotherTodo.WebApi.Auth")
                 {
-                    HttpOnly = false,
+                    HttpOnly = true,
                     Expires = result.Expires.UtcDateTime,
                     Value = protectedText
                 });
